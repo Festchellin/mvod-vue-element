@@ -10,7 +10,7 @@ export default {
                     resolve(response.data);
                 })
                 .catch(err => {
-                    reject(err)
+                    reject(err);
                 })
         })
     },
@@ -20,7 +20,7 @@ export default {
                 .then(response => {
                     resolve(response.data);
                 }, err => {
-                    reject(err)
+                    reject(err);
                 })
         })
     },
@@ -30,7 +30,7 @@ export default {
                 .then(response => {
                     resolve(response.data);
                 }, err => {
-                    reject(err)
+                    reject(err);
                 })
         })
     },
@@ -40,8 +40,18 @@ export default {
                 .then(response => {
                     resolve(response.data);
                 }, err => {
-                    reject(err)
+                    reject(err);
                 })
+        })
+    },
+    delete(url, data = {}) {
+        return new Promise((resolve, reject) => {
+            axios.delete(url, data)
+                .then(response => {
+                    resolve(response.data);
+                }), err => {
+                reject(err);
+            }
         })
     }
 }

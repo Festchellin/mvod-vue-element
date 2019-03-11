@@ -5,7 +5,7 @@
                {{subMenu.title}}
             </span>
         </template>
-        <el-menu-item v-for="item in subMenu.items" v-bind:key="item.id" :index="item.name">{{item.name}}</el-menu-item>
+        <el-menu-item :index="item.name" v-bind:key="item.id" v-for="item in subMenu.items">{{item.name}}</el-menu-item>
     </el-submenu>
 </template>
 

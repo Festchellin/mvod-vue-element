@@ -1,5 +1,5 @@
 <template>
-    <el-row type="flex" justify="center" align="middle" class="mvod-bottom-1 mvod-width-95">
+    <el-row align="middle" class="mvod-bottom-1 mvod-width-95" justify="center" type="flex">
         <el-col :span="12">
             <p class="copyright text-align-center ">Copyright &copy; Mvod {{new Date().getFullYear()}}</p>
         </el-col>

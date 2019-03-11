@@ -1,7 +1,7 @@
 <template>
     <el-menu>
-        <mvod-sub-menu v-for="subMenu in subMenus" v-bind:key="subMenu.id"
-                       v-bind:sub-menu="subMenu"></mvod-sub-menu>
+        <mvod-sub-menu v-bind:key="subMenu.id" v-bind:sub-menu="subMenu"
+                       v-for="subMenu in subMenus"></mvod-sub-menu>
     </el-menu>
 </template>
 

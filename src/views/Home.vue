@@ -1,12 +1,12 @@
 <template>
     <el-container>
         <el-header>
-            <mvod-header/>
+            <mvod-header :user="this.$store.getters.getUser"/>
         </el-header>
-        <el-row type="flex" justify="center" align="center" class="mvod-content">
+        <el-row align="center" class="mvod-content" justify="center" type="flex">
             <el-col :span="6">
                 <el-card>
-                    <el-row justify="center" align="middle" type="flex">
+                    <el-row align="middle" justify="center" type="flex">
                         <el-col>
                             <mvod-menu :sub-menus="subMenus"></mvod-menu>
                         </el-col>
@@ -15,9 +15,9 @@
             </el-col>
             <el-col :span="17" style="margin-left: 1%">
                 <el-card>
-                    <el-row justify="center" align="middle" type="flex">
+                    <el-row align="middle" justify="center" type="flex">
                         <el-col>
-                            <el-row justify="center" align="middle" type="flex">
+                            <el-row align="middle" justify="center" type="flex">
                                 <el-col>
                                     <mvod-carousel></mvod-carousel>
                                 </el-col>
@@ -40,6 +40,7 @@
     import MvodMenu from "../components/MvodMenu";
     import MvodCarousel from "../components/MvodCarousel";
 
+
     export default {
         name: 'home',
         components: {
@@ -50,13 +51,19 @@
         },
         data() {
             return {
-                subMenus: [{id: 1, title: 'AAAAAAAAA', items: [{name: 'aaa'}, {name: 'bbb'}, {name: 'ccc'}]}]
+                subMenus: []
             }
         },
-        mounted() {
-            this.$store.commit('setUser',{id:1,name:'aaaa'});
-            this.$store.commit('setUserToken','asdasdadadas');
-            this.$store.commit('clearSignInInformation');
+        async mounted() {
+            if (!localStorage.getItem("categoryMenu")) {
+                await this.$store.dispatch("setMenuAsync");
+                const categoryMenu = this.$store.getters.getCategoryMenu;
+                this.subMenus.push(categoryMenu);
+                localStorage.setItem("categoryMenu", JSON.stringify(categoryMenu))
+            } else {
+                const categoryMenu = JSON.parse(localStorage.getItem('categoryMenu'));
+                this.subMenus.push(categoryMenu);
+            }
         }
     }
 </script>
@@ -64,6 +71,11 @@
     .mvod-content {
         margin-top: 4%;
     }
+
+    .mvod-align-center {
+        text-align: center;
+    }
+
     .el-carousel__item:nth-child(2n) {
         background-color: #99a9bf;
     }

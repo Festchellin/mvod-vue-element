@@ -1,6 +1,6 @@
 module.exports = {
     devServer: {
-        open: true,
+        open: process.platform === 'win32',
         port: 8899,
         proxy: {
             "/api": {

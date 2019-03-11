@@ -6,15 +6,7 @@
                     <el-col :span="6">
                         <h1 @click="navigateToHome" class="logo">Mvod</h1>
                     </el-col>
-                    <el-col :span="8">
-                        <el-input
-                                @keyup.enter.native="searchVideo"
-                                clearable
-                                placeholder="search video"
-                                v-model="video"
-                        />
-                    </el-col>
-                    <el-col :offset="1" :span="7" v-if="!user">
+                    <el-col :offset="16" v-if="!user">
                         <el-menu
                                 :router="true"
                                 active-text-color="#303133"
@@ -23,7 +15,7 @@
                             <el-menu-item index="about">About</el-menu-item>
                         </el-menu>
                     </el-col>
-                    <el-col :offset="1" :span="7" v-else>
+                    <el-col :offset="16" v-else>
                         <el-button @click="navigateToUserCenter" type="text">
                             {{user.name || user.account}}
                         </el-button>
@@ -36,15 +28,14 @@
 </template>
 
 <script>
-
     export default {
-        name: "MvodHeader",
+        name: "MvodHeaderWithoutSearchBar",
         props: ['user'],
         methods: {
             signOut() {
                 this.$store.commit('clearSignInInformation');
                 localStorage.clear();
-                this.$router.replace("/")
+                this.$router.replace("/");
             },
             navigateToUserCenter() {
                 if (this.user.adminRole) this.$router.push('admin');
@@ -52,21 +43,6 @@
             },
             navigateToHome() {
                 this.$router.push("/")
-            },
-            searchVideo() {
-                if (this.video != null && this.video !== '') {
-                    console.log("Search")
-                } else {
-                    this.$message({
-                        type: 'warning',
-                        message: "Please enter some keywords"
-                    })
-                }
-            }
-        },
-        data() {
-            return {
-                video: ""
             }
         }
     }

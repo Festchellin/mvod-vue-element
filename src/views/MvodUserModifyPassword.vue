@@ -2,7 +2,7 @@
     <el-form inline>
         <el-form-item
                 label="Modify Password">
-            <el-input v-model="password" type="password"/>
+            <el-input type="password" v-model="password"/>
         </el-form-item>
         <el-form-item>
             <el-button @click="submit" type="warning">Change</el-button>
@@ -13,6 +13,7 @@
 <script>
     import md5 from 'blueimp-md5'
     import userProvider from "../providers/UserProvider";
+
     export default {
         name: "MvodUserModifyPassword",
         data() {
@@ -22,8 +23,8 @@
         },
         methods: {
             async submit() {
-                const user = {...this.$store.getters.getUser}
-                user.password = md5(this.password)
+                const user = {...this.$store.getters.getUser};
+                user.password = md5(this.password);
                 const response = await userProvider.updateUser(user);
                 this.$message({
                     type: response.success ? "success" : "error",

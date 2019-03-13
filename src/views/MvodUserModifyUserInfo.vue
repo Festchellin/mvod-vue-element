@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form inline v-model="this.$store.getters.getUser" ref="user">
+        <el-form inline ref="user" v-model="this.$store.getters.getUser">
             <el-form-item
                     label="Name">
                 <el-input v-model="this.$store.getters.getUser.name"/>
@@ -11,21 +11,21 @@
             </el-form-item>
             <el-button @click="save('user')">Save</el-button>
         </el-form>
-        <el-form ref="userInfo" :model="userInfo">
+        <el-form :model="userInfo" ref="userInfo">
             <el-form-item
                     :prop="userInfo.avatar"
                     label="Avatar">
-                <img v-if="showPic" :src="userInfo.avatar" class="mvod-avatar">
+                <img :src="userInfo.avatar" class="mvod-avatar" v-if="showPic">
                 <el-upload
-                        action="/api/upload"
-                        name="file"
-                        list-type="picture-card"
-                        :limit="1"
-                        accept="image/jpeg,image/gif,image/png"
                         :before-upload="beforeAvatarUpload"
+                        :limit="1"
                         :on-exceed="handleExceed"
+                        :on-remove="handleRemove"
                         :on-success="handleUploadSuccess"
-                        :on-remove="handleRemove">
+                        accept="image/jpeg,image/gif,image/png"
+                        action="/api/upload"
+                        list-type="picture-card"
+                        name="file">
                     <i class="el-icon-plus"></i>
                 </el-upload>
             </el-form-item>
@@ -42,19 +42,19 @@
             <el-form-item
                     label="Register Date">
                 <el-date-picker
-                        readonly
                         :value="userInfo.registerDate"
-                        type="datetime"
-                        placeholder="Choose...">
+                        placeholder="Choose..."
+                        readonly
+                        type="datetime">
                 </el-date-picker>
             </el-form-item>
             <el-form-item
                     label="Last Modify Time">
                 <el-date-picker
-                        readonly
                         :value="userInfo.lastModifyTime"
-                        type="datetime"
-                        placeholder="Choose...">
+                        placeholder="Choose..."
+                        readonly
+                        type="datetime">
                 </el-date-picker>
             </el-form-item>
             <el-button @click="save('userInfo')" type="primary">Save</el-button>
@@ -80,10 +80,10 @@
                 },
             }
         },
-        computed:{
-          showPic(){
-              return !!this.userInfo.avatar;
-          }
+        computed: {
+            showPic() {
+                return !!this.userInfo.avatar;
+            }
         },
         methods: {
             handleRemove() {
@@ -97,13 +97,13 @@
                         break;
                     }
                     case 'userInfo': {
-                        console.log("info")
+                        console.log("info");
                         const user = this.$store.getters.getUser;
-                        this.userInfo.user = {...user}
+                        this.userInfo.user = {...user};
                         const response = await commomProvider.update(this.userInfo, "/api/userInfo");
-                        if (response.success){
-                           await this.getUserInfo();
-                           this.$message.success(response.message)
+                        if (response.success) {
+                            await this.getUserInfo();
+                            this.$message.success(response.message)
                         } else {
                             this.$message.error(response.message)
                         }
@@ -111,10 +111,10 @@
                     }
                 }
             },
-            async getUserInfo(){
+            async getUserInfo() {
                 const user = this.$store.getters.getUser;
-                const response = await commomProvider.getById(user.id,"/api/userInfo/")
-                if (response.success){
+                const response = await commomProvider.getById(user.id, "/api/userInfo/");
+                if (response.success) {
                     this.userInfo = response.data.info;
                 }
             }

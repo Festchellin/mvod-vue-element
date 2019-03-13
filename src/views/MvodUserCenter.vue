@@ -29,10 +29,11 @@
 <script>
     import MvodHeaderWithoutSearchBar from "../components/MvodHeaderWithoutSearchBar";
     import MvodManageMenu from "../components/MvodManageMenu";
+
     export default {
         name: "MvodUserCenter",
         components: {MvodManageMenu, MvodHeaderWithoutSearchBar},
-        async mounted(){
+        async mounted() {
             await this.$store.dispatch("setUserMenuAsync");
         }
     }

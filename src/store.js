@@ -29,10 +29,10 @@ export default new Vuex.Store({
         getAdminMenu(state) {
             return state.adminMenu;
         },
-        getUserMenu(state){
+        getUserMenu(state) {
             return state.userMenu;
         },
-        getAllMenu(state){
+        getAllMenu(state) {
             return state.menu;
         }
     }
@@ -54,10 +54,10 @@ export default new Vuex.Store({
         setAdminMenu(state, menu) {
             state.adminMenu = menu;
         },
-        setUserMenu(state,menu){
+        setUserMenu(state, menu) {
             state.userMenu = menu;
         },
-        setMenu(state,menu){
+        setMenu(state, menu) {
             state.menu = menu;
         }
     },
@@ -84,20 +84,20 @@ export default new Vuex.Store({
                 context.commit('setAdminMenu', menu);
             }
         },
-        setUserMenu(context, menu){
-            context.commit('setUserMenu',menu)
+        setUserMenu(context, menu) {
+            context.commit('setUserMenu', menu)
         },
-        async setUserMenuAsync(context){
+        async setUserMenuAsync(context) {
             const response = await httpService.getList("/api/table?type=1");
             if (response.success) {
                 const menu = response.data.tables;
                 context.commit('setUserMenu', menu);
             }
         },
-        setMenu(context, menu){
-            context.commit('setUserMenu',menu)
+        setMenu(context, menu) {
+            context.commit('setUserMenu', menu)
         },
-        async setMenuAsync(context){
+        async setMenuAsync(context) {
             const response = await httpService.getList("/api/table?type=3");
             if (response.success) {
                 const menu = response.data.tables;

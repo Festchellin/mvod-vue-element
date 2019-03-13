@@ -1,19 +1,19 @@
 <template>
     <div>
-        <el-form inline class="mvod-align-center" ref="menu" :model="menu" :rules="rules">
+        <el-form :model="menu" :rules="rules" class="mvod-align-center" inline ref="menu">
             <el-form-item
-                    prop="tbName"
-                    label="Table Name">
+                    label="Table Name"
+                    prop="tbName">
                 <el-input v-model="menu.tbName"/>
             </el-form-item>
             <el-form-item
-                    prop="tbComment"
-                    label="Table Comment">
+                    label="Table Comment"
+                    prop="tbComment">
                 <el-input v-model="menu.tbComment"/>
             </el-form-item>
             <el-form-item
-                    prop="navigateLink"
-                    label="Navigate Link">
+                    label="Navigate Link"
+                    prop="navigateLink">
                 <el-input v-model="menu.navigateLink"/>
             </el-form-item>
             <el-form-item
@@ -23,7 +23,7 @@
                     <el-radio :label="2">Admin</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-button type="primary" @click="add('menu')">Add</el-button>
+            <el-button @click="add('menu')" type="primary">Add</el-button>
         </el-form>
         <el-table
                 :data="this.$store.getters.getAllMenu"
@@ -47,7 +47,7 @@
                             <el-input v-model="props.row.navigateLink"></el-input>
                         </el-form-item>
                         <el-form-item
-                        label="For User or Admin">
+                                label="For User or Admin">
                             <el-radio-group v-model="props.row.type">
                                 <el-radio :label="1">User</el-radio>
                                 <el-radio :label="2">Admin</el-radio>
@@ -113,13 +113,13 @@
             add(formName) {
                 this.$refs[formName].validate(async valid => {
                     if (valid) {
-                        const menu = {...this.menu}
+                        const menu = {...this.menu};
                         const response = await commonService.save(menu, '/api/table');
                         this.$message({
                             showClose: true,
                             type: response.success ? 'success' : 'error',
                             message: response.message
-                        })
+                        });
                         await this.$store.dispatch("setMenuAsync")
                     }
                 })

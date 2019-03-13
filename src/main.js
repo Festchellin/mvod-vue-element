@@ -14,7 +14,7 @@ Vue.use(ElementUI);
 
 Vue.prototype.$http = httpService;
 router.beforeEach((to, from, next) => {
-    console.log(to.name,next.name)
+    console.log(to.name, next.name);
     if (to.name.indexOf('admin') > -1 || to.name.indexOf('user') > -1) {
         if (!store.getters.isSignIn) {
             console.log('not sign in');

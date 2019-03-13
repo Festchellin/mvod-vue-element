@@ -76,7 +76,7 @@
                         if (!response.success)
                             this.$message.error(response.message);
                         else {
-                            this.$message.success(response.message)
+                            this.$message.success(response.message);
                             await this.getData()
                         }
                     })
@@ -102,7 +102,7 @@
                 const end = current * this.pageSize;
                 this.data = logs.slice(begin, end)
             },
-            async getData(){
+            async getData() {
                 const response = await commonService.getListByCondition({}, 0, 10000, "/api/userlog");
                 if (response.success) {
                     this.logs = response.data.logs.slice(0);

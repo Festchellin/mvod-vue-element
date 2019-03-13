@@ -44,51 +44,51 @@
 
     export default {
         name: "MvodAdminUserInfoManagement",
-        data(){
-            return{
-                data:[],
-                userInfoList:[],
-                pageCount:5,
-                currentPage:1,
-                pageSize:5
+        data() {
+            return {
+                data: [],
+                userInfoList: [],
+                pageCount: 5,
+                currentPage: 1,
+                pageSize: 5
             }
         },
-        computed:{
-            total(){
+        computed: {
+            total() {
                 return this.userInfoList.length;
             }
         },
-        methods:{
-            formatterTime(row){
+        methods: {
+            formatterTime(row) {
                 return Date(row.lastModifyTime)
             },
-            formatterDate(row){
+            formatterDate(row) {
                 return Date(row.registerDate)
             },
-            formatter(row){
+            formatter(row) {
                 return row.user.name || row.user.account;
             },
-            async getData(){
-              const response = await commonProvider.getListByCondition({},0,10000,'/api/userInfo');
-                if (response.success){
+            async getData() {
+                const response = await commonProvider.getListByCondition({}, 0, 10000, '/api/userInfo');
+                if (response.success) {
                     this.userInfoList = response.data.list;
                 }
             },
-            prev(){
+            prev() {
                 let userInfoList = this.userInfoList.slice(0);
                 this.currentPage = this.currentPage - 1 >= 0 ? this.currentPage - 1 : 0;
                 const begin = (this.currentPage - 1) * this.pageSize;
                 const end = this.currentPage * this.pageSize;
                 this.data = userInfoList.slice(begin, end)
             },
-            next(){
+            next() {
                 let userInfoList = this.userInfoList.slice(0);
                 this.currentPage = this.currentPage + 1 <= this.total ? this.currentPage + 1 : this.total;
                 const begin = (this.currentPage - 1) * this.pageSize;
                 const end = this.currentPage * this.pageSize;
                 this.data = userInfoList.slice(begin, end)
             },
-            currentChange(current){
+            currentChange(current) {
                 let userInfoList = this.userInfoList.slice(0);
                 const begin = (current - 1) * this.pageSize;
                 const end = current * this.pageSize;
@@ -97,7 +97,7 @@
         },
         async mounted() {
             await this.getData();
-            this.data = this.userInfoList.slice(0,this.pageSize)
+            this.data = this.userInfoList.slice(0, this.pageSize)
         }
     }
 </script>

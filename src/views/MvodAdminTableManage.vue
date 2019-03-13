@@ -26,7 +26,7 @@
             <el-button type="primary" @click="add('menu')">Add</el-button>
         </el-form>
         <el-table
-                :data="this.$store.getters.getAdminMenu"
+                :data="this.$store.getters.getAllMenu"
                 border
                 stripe>
             <el-table-column
@@ -35,8 +35,23 @@
                 <template slot-scope="props">
                     <el-form class="mvod-align-center" label-position="left">
                         <el-form-item
+                                label="Table Name:">
+                            <el-input v-model="props.row.tbName"></el-input>
+                        </el-form-item>
+                        <el-form-item
                                 label="Table Comment:">
                             <el-input v-model="props.row.tbComment"></el-input>
+                        </el-form-item>
+                        <el-form-item
+                                label="Navigate Link">
+                            <el-input v-model="props.row.navigateLink"></el-input>
+                        </el-form-item>
+                        <el-form-item
+                        label="For User or Admin">
+                            <el-radio-group v-model="props.row.type">
+                                <el-radio :label="1">User</el-radio>
+                                <el-radio :label="2">Admin</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                         <el-form-item>
                             <el-button @click="save(props.row)" type="primary">Save</el-button>
@@ -94,7 +109,6 @@
                 if (!response.success) {
                     this.$message.error(response.message)
                 }
-                //    TODO save opeartion
             },
             add(formName) {
                 this.$refs[formName].validate(async valid => {
@@ -106,7 +120,7 @@
                             type: response.success ? 'success' : 'error',
                             message: response.message
                         })
-                        await this.$store.dispatch("setAdminMenuAsync")
+                        await this.$store.dispatch("setMenuAsync")
                     }
                 })
             },
@@ -117,11 +131,11 @@
                     confirmButtonText: 'Delete'
                 }).then(() => {
                     console.log("confirm" + row.id);
-                    commonService.deleteById(row.id, '/api/table/').then(response => {
+                    commonService.deleteById(row.id, '/api/table/').then(async response => {
                         if (!response.success) {
                             this.$message.error(response.message)
                         } else {
-                            this.$store.dispatch("setAdminMenuAsync").then(() => console.log('ok'))
+                            await this.$store.dispatch("setMenuAsync")
                         }
                     })
 

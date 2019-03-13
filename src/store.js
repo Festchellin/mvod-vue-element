@@ -10,7 +10,8 @@ export default new Vuex.Store({
         user: null,
         categoryMenu: null,
         adminMenu: null,
-        userMenu: null
+        userMenu: null,
+        menu: null
     },
     getters: {
         isSignIn(state) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
         },
         getUserMenu(state){
             return state.userMenu;
+        },
+        getAllMenu(state){
+            return state.menu;
         }
     }
     ,
@@ -52,13 +56,16 @@ export default new Vuex.Store({
         },
         setUserMenu(state,menu){
             state.userMenu = menu;
+        },
+        setMenu(state,menu){
+            state.menu = menu;
         }
     },
     actions: {
         setUserTokenAsync(context, userToken) {
             context.commit('setUserToken', userToken)
         },
-        async setMenuAsync(context) {
+        async setCategoryMenuAsync(context) {
             if (!context.state.categoryMenu) {
                 const response = await httpService.getListByCondition({}, 0, 100, "/api/category");
                 if (response.success) {
@@ -85,6 +92,16 @@ export default new Vuex.Store({
             if (response.success) {
                 const menu = response.data.tables;
                 context.commit('setUserMenu', menu);
+            }
+        },
+        setMenu(context, menu){
+            context.commit('setUserMenu',menu)
+        },
+        async setMenuAsync(context){
+            const response = await httpService.getList("/api/table?type=3");
+            if (response.success) {
+                const menu = response.data.tables;
+                context.commit('setMenu', menu);
             }
         }
     }

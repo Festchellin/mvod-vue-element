@@ -40,6 +40,7 @@
         },
         async mounted() {
             await this.$store.dispatch("setAdminMenuAsync");
+            await this.$store.dispatch("setMenuAsync");
         }
     }
 </script>

@@ -56,7 +56,7 @@
         },
         async mounted() {
             if (!localStorage.getItem("categoryMenu")) {
-                await this.$store.dispatch("setMenuAsync");
+                await this.$store.dispatch("setCategoryMenuAsync");
                 const categoryMenu = this.$store.getters.getCategoryMenu;
                 this.subMenus.push(categoryMenu);
                 localStorage.setItem("categoryMenu", JSON.stringify(categoryMenu))

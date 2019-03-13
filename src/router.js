@@ -37,7 +37,15 @@ export default new Router({
                     path:'password',
                     name:'user-modify-password',
                     component:() => import('./views/MvodUserModifyPassword.vue')
+                },{
+                    path:"user",
+                    name:"user-modify-userInfo",
+                    component:()=> import('./views/MvodUserModifyUserInfo.vue')
                 }]
+            },{
+                path:'video',
+                name:"user-video",
+                component:()=> import("./views/MvodUserModifyVideo.vue")
             }]
         },
         {
@@ -52,7 +60,7 @@ export default new Router({
                 },
                 {path: "category", name: 'admin-category', component: () => import('./views/About.vue')},
                 {path: "table", name: 'admin-table', component: () => import('./views/MvodAdminTableManage.vue')},
-                {path: "userInfo", name: 'admin-userInfo', component: () => import('./views/About.vue')},
+                {path: "userInfo", name: 'admin-userInfo', component: () => import('./views/MvodAdminUserInfoManagement.vue')},
                 {
                     path: "userLog",
                     name: 'admin-userLog',

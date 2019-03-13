@@ -32,4 +32,11 @@
     .mvod-width-95 {
         width: 95%;
     }
+    .mvod-avatar{
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        border: lightsteelblue solid;
+        display: inline-block;
+    }
 </style>

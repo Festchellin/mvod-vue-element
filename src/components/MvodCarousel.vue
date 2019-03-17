@@ -1,18 +1,34 @@
 <template>
-    <el-carousel :interval="3000" indicator-position="outside" type="card">
-        <el-carousel-item :key="item" v-for="item in 4">
-            <h3>{{ item }}</h3>
-            <mvod-video :video="{src:'https://youtu.be/ZfQR2r6rqyE',poster: 'aaaaa.jpg'}"></mvod-video>
+    <el-carousel indicator-position="outside" type="card" trigger="click" :autoplay="false">
+        <el-carousel-item :key="index" v-for="(video,index) in videos">
+            <mvod-video :video="video"></mvod-video>
         </el-carousel-item>
     </el-carousel>
 </template>
 
 <script>
     import MvodVideo from "./MvodVideo";
+    import commonProvider from "../providers/CommonProvider";
 
     export default {
         name: "MvodCarousel",
-        components: {MvodVideo}
+        components: {MvodVideo},
+        data() {
+            return {
+                videos: []
+            }
+        },
+        methods: {
+            async getData() {
+                const response = await commonProvider.getListByCondition({}, 0, 4, "/api/video");
+                if (response.success) {
+                    this.videos = response.data.list;
+                }
+            }
+        },
+        async mounted() {
+            await this.getData()
+        }
     }
 </script>
 

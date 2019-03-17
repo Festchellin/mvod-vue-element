@@ -1,33 +1,51 @@
 <template>
-    <el-card shadow="hover">
+    <div style="position: relative">
+        <div class="des">
+            <h3 >{{video.name}}</h3>
+        </div>
         <div>
             <video
-                    :height="this.adjustConfig.height"
+                    @click="navigateToVideo(video)"
+                    :ref="video"
+                    @mouseover="playVideo(video)"
+                    @mouseleave="pauseVideo(video)"
                     :poster="video.poster"
-                    :src="video.src"
-                    :width="this.adjustConfig.width">
+                    :src="video.url"
+                    width="80%">
                 你的浏览器不支持该标签，请使用现代浏览器
             </video>
         </div>
-    </el-card>
+    </div>
 </template>
 
 <script>
     export default {
         name: "MvodVideo",
-        props: ['config', 'video'],
-        computed: {
-            adjustConfig: (config) => {
-                let adjustConfig = {
-                    width: (config != null && config != {}) ? config.width : 60,
-                    height: (config != null && config != {}) ? config.height : 60,
-                };
-                return adjustConfig;
+        props: ['video'],
+
+        methods: {
+            playVideo(video) {
+                this.$refs[video].play();
+            },
+            pauseVideo(video) {
+                this.$refs[video].pause()
+            },
+            navigateToVideo(video){
+                console.log(video)
+                this.$router.push({path:"video",query:{video_id:video.id}})
             }
         }
     }
 </script>
 
 <style scoped>
+    .des {
+        position: absolute;
+        color: white;
+        bottom: 1rem;
+    }
 
+    .des:hover {
+        visibility: hidden;
+    }
 </style>

@@ -7,6 +7,7 @@ import './registerServiceWorker'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
+
 import httpService from './providers/HttpProvider'
 
 Vue.config.productionTip = false;

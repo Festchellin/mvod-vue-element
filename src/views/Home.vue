@@ -4,17 +4,8 @@
             <mvod-header :user="this.$store.getters.getUser"/>
         </el-header>
         <el-row align="center" class="mvod-content" justify="center" type="flex">
-            <el-col :span="6">
-                <el-card>
-                    <el-row align="middle" justify="center" type="flex">
-                        <el-col>
-                            <mvod-menu :sub-menus="subMenus"></mvod-menu>
-                        </el-col>
-                    </el-row>
-                </el-card>
-            </el-col>
             <el-col :span="17" style="margin-left: 1%">
-                <el-card>
+                <el-card v-if="this.$store.getters.getShowHomeCarousel">
                     <el-row align="middle" justify="center" type="flex">
                         <el-col>
                             <el-row align="middle" justify="center" type="flex">
@@ -25,6 +16,15 @@
                         </el-col>
                     </el-row>
                 </el-card>
+
+                <div v-if="this.$store.getters.getVideos.length > 0">
+                    <mvod-video-simple  :video="video" v-bind:key="index" v-for="(video,index) in this.$store.getters.getVideos"/>
+                </div>
+                <div v-else class="mvod-align-center">
+                    <el-card>
+                        no results found.
+                    </el-card>
+                </div>
             </el-col>
         </el-row>
         <el-footer>
@@ -37,33 +37,40 @@
     // @ is an alias to /src
     import MvodHeader from '../components/MvodHeader';
     import MvodFooter from '../components/MvodFooter';
-    import MvodMenu from "../components/MvodMenu";
     import MvodCarousel from "../components/MvodCarousel";
+    import MvodVideoSimple from "../components/MvodVideoSimple";
 
 
     export default {
         name: 'home',
         components: {
+            MvodVideoSimple,
             MvodCarousel,
-            MvodMenu,
             MvodFooter,
             MvodHeader
         },
         data() {
             return {
-                subMenus: []
+                subMenus: [],
+                videos: []
+            }
+        },
+        methods: {
+            async getData(condition,page,pageSize) {
+              await this.$store.dispatch("setVideosAsync",{condition,page,pageSize})
             }
         },
         async mounted() {
-            if (!localStorage.getItem("categoryMenu")) {
-                await this.$store.dispatch("setCategoryMenuAsync");
-                const categoryMenu = this.$store.getters.getCategoryMenu;
-                this.subMenus.push(categoryMenu);
-                localStorage.setItem("categoryMenu", JSON.stringify(categoryMenu))
-            } else {
-                const categoryMenu = JSON.parse(localStorage.getItem('categoryMenu'));
-                this.subMenus.push(categoryMenu);
+            const query = this.$store.getters.getQuery;
+            console.log(query)
+            let condition = {}
+            if (query !== "") {
+                condition = {
+                    conditionName: "name",
+                    conditionValue: query
+                }
             }
+            await this.getData(condition,0,10);
         }
     }
 </script>
@@ -74,13 +81,5 @@
 
     .mvod-align-center {
         text-align: center;
-    }
-
-    .el-carousel__item:nth-child(2n) {
-        background-color: #99a9bf;
-    }
-
-    .el-carousel__item:nth-child(2n+1) {
-        background-color: #d3dce6;
     }
 </style>

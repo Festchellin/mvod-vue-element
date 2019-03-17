@@ -18,5 +18,8 @@ export default {
     },
     async getList(baseUrl) {
         return await httpService.fetch(`${baseUrl}`);
+    },
+    async get(baseUrl, data) {
+        return await httpService.fetch(`${baseUrl}`, data);
     }
 }

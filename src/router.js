@@ -13,12 +13,12 @@ export default new Router({
             component: Home
         },
         {
-            path: '/about',
-            name: 'about',
+            path: '/video',
+            name: 'video',
             // route level code-splitting
             // this generates a separate chunk (about.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
-            component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+            component: () => import(/* webpackChunkName: "about" */ './views/MvodVideoDetail.vue')
         },
         {
             path: "/login",
@@ -45,7 +45,7 @@ export default new Router({
             }, {
                 path: 'video',
                 name: "user-video",
-                component: () => import("./views/MvodUserModifyVideo.vue")
+                component: () => import("./views/MvodUserVideoManagement.vue")
             }]
         },
         {

@@ -11,7 +11,10 @@ export default new Vuex.Store({
         categoryMenu: null,
         adminMenu: null,
         userMenu: null,
-        menu: null
+        menu: null,
+        videos: [],
+        showHomeCarousel: true,
+        query:""
     },
     getters: {
         isSignIn(state) {
@@ -34,6 +37,15 @@ export default new Vuex.Store({
         },
         getAllMenu(state) {
             return state.menu;
+        },
+        getVideos(state) {
+            return state.videos;
+        },
+        getShowHomeCarousel(state) {
+            return state.showHomeCarousel;
+        },
+        getQuery(state){
+            return state.query;
         }
     }
     ,
@@ -59,9 +71,28 @@ export default new Vuex.Store({
         },
         setMenu(state, menu) {
             state.menu = menu;
+        },
+        setVideos(state, videos) {
+            state.videos = videos;
+        },
+        setShowHomeCarousel(state, carousel) {
+            state.showHomeCarousel = carousel;
+        },
+        setQuery(state,query){
+            state.query = query;
         }
     },
     actions: {
+        setVideos(context, videos) {
+            context.commit("setVideos", videos);
+        },
+        async setVideosAsync(context, {condition,page, pageSize}) {
+            const response = await httpService.getListByCondition({...condition}, page, pageSize, "/api/video");
+            if (response.success) {
+                const videos = response.data.list;
+                context.commit("setVideos", videos);
+            }
+        },
         setUserTokenAsync(context, userToken) {
             context.commit('setUserToken', userToken)
         },

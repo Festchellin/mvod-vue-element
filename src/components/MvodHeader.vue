@@ -11,7 +11,7 @@
                                 @keyup.enter.native="searchVideo"
                                 clearable
                                 placeholder="search video"
-                                v-model="video"
+                                v-model="query"
                         />
                     </el-col>
                     <el-col :offset="1" :span="7" v-if="!user">
@@ -20,7 +20,6 @@
                                 active-text-color="#303133"
                                 mode="horizontal">
                             <el-menu-item index="login">Login</el-menu-item>
-                            <el-menu-item index="about">About</el-menu-item>
                         </el-menu>
                     </el-col>
                     <el-col :offset="1" :span="7" v-else>
@@ -37,9 +36,21 @@
 
 <script>
 
+    import commomProvider from "../providers/CommonProvider";
+
     export default {
         name: "MvodHeader",
         props: ['user'],
+        data(){
+          return{
+              query:""
+          }
+        },
+        computed: {
+            video() {
+                return this.query || this.$store.getters.getQuery
+            }
+        },
         methods: {
             signOut() {
                 this.$store.commit('clearSignInInformation');
@@ -53,20 +64,23 @@
             navigateToHome() {
                 this.$router.push("/")
             },
-            searchVideo() {
-                if (this.video != null && this.video !== '') {
-                    console.log("Search")
+            async searchVideo() {
+                if (this.video !== '') {
+                    const response = await commomProvider.getListByCondition({
+                        conditionName: "name",
+                        conditionValue: this.video
+                    }, 0, 10, "/api/video");
+                    if (response.success) {
+                        const list = response.data.list;
+                        this.$store.commit("setQuery", this.video);
+                        this.$store.commit("setVideos", list);
+                        this.$store.commit("setShowHomeCarousel", false)
+                        this.$router.push("/");
+                    }
                 } else {
-                    this.$message({
-                        type: 'warning',
-                        message: "Please enter some keywords"
-                    })
+                    await this.$store.dispatch("setVideosAsync", {page: 0, pageSize: 10})
+                    this.$store.commit("setShowHomeCarousel", true)
                 }
-            }
-        },
-        data() {
-            return {
-                video: ""
             }
         }
     }

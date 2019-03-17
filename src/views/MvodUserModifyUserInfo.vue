@@ -16,18 +16,11 @@
                     :prop="userInfo.avatar"
                     label="Avatar">
                 <img :src="userInfo.avatar" class="mvod-avatar" v-if="showPic">
-                <el-upload
-                        :before-upload="beforeAvatarUpload"
-                        :limit="1"
-                        :on-exceed="handleExceed"
-                        :on-remove="handleRemove"
-                        :on-success="handleUploadSuccess"
+                <mvod-file-upload
+                        @onUploadSuccess="handleUploadSuccess"
                         accept="image/jpeg,image/gif,image/png"
-                        action="/api/upload"
-                        list-type="picture-card"
-                        name="file">
-                    <i class="el-icon-plus"></i>
-                </el-upload>
+                        url="/upload/image"
+                ></mvod-file-upload>
             </el-form-item>
             <el-form-item
                     :prop="userInfo.email"
@@ -64,9 +57,11 @@
 
 <script>
     import commomProvider from "../providers/CommonProvider";
+    import MvodFileUpload from "../components/MvodFileUpload";
 
     export default {
         name: "MvodUserInfo",
+        components: {MvodFileUpload},
         data() {
             return {
                 userInfo: {
@@ -100,7 +95,7 @@
                         console.log("info");
                         const user = this.$store.getters.getUser;
                         this.userInfo.user = {...user};
-                        const response = await commomProvider.update(this.userInfo, "/api/userInfo");
+                        const response = await commomProvider.update(this.userInfo, "/userInfo");
                         if (response.success) {
                             await this.getUserInfo();
                             this.$message.success(response.message)
@@ -113,7 +108,7 @@
             },
             async getUserInfo() {
                 const user = this.$store.getters.getUser;
-                const response = await commomProvider.getById(user.id, "/api/userInfo/");
+                const response = await commomProvider.getById(user.id, "/userInfo/");
                 if (response.success) {
                     this.userInfo = response.data.info;
                 }
@@ -132,7 +127,8 @@
                 return isJPG && isLt2M;
             },
             handleUploadSuccess(res) {
-                this.userInfo.avatar = res[0].url;
+                console.log(res)
+                this.userInfo.avatar = res.data.url;
             },
             handleExceed() {
                 this.$message.error("only accept one picture please remove and continue")

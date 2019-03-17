@@ -72,7 +72,7 @@
                     cancelButtonText: 'Cancel',
                     confirmButtonText: 'Delete'
                 }).then(() => {
-                    commonService.deleteById(row.id, "/api/userlog/").then(async response => {
+                    commonService.deleteById(row.id, "/userlog/").then(async response => {
                         if (!response.success)
                             this.$message.error(response.message);
                         else {
@@ -103,7 +103,7 @@
                 this.data = logs.slice(begin, end)
             },
             async getData() {
-                const response = await commonService.getListByCondition({}, 0, 10000, "/api/userlog");
+                const response = await commonService.getListByCondition({}, 0, 10000, "/userlog");
                 if (response.success) {
                     this.logs = response.data.logs.slice(0);
                     const logs = this.logs.slice(0);

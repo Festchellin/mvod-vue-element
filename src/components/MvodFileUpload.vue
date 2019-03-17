@@ -80,7 +80,7 @@
                     let start, end;
                     const fileName = files[i].name;
                     totalSlices = Math.ceil(total / BYTES_PER_SLICE);
-                    while (index <= totalSlices - 1) {
+                    while (index <= Math.max(1,totalSlices - 1)) {
                         start = index * BYTES_PER_SLICE;
                         end = Math.min(total, start + BYTES_PER_SLICE);
                         const slice = files[i].slice(start, end);
@@ -95,6 +95,7 @@
                         if (responses.success) {
                             index++;
                             if (responses.data.url !== undefined || null) {
+                                console.log(responses)
                                 this.result = responses;
                                 this.$emit('onUploadSuccess', this.result);
                             }

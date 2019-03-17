@@ -62,6 +62,10 @@ axios.defaults.timeout = 5000;
 axios.interceptors.request.use(
     config => {
         // config.data = JSON.stringify(config.data);
+        config.proxy = {
+            host:"127.0.0.1",
+            port:8888
+        }
         config.headers = {
             'Content-Type': 'application/json;charset=UTF-8'
         };

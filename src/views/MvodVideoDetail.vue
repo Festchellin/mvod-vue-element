@@ -56,7 +56,7 @@
         async mounted() {
             const videoId = this.$route.query.video_id;
             console.log(videoId)
-            const response = await commonProvider.getById(videoId, "/api/video/").catch(() => this.error = true)
+            const response = await commonProvider.getById(videoId, "/video/").catch(() => this.error = true)
             if (response.success) {
                 this.video = response.data.video;
             }else {

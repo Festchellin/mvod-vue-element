@@ -20,7 +20,7 @@
         },
         methods: {
             async getData() {
-                const response = await commonProvider.getListByCondition({}, 0, 4, "/api/video");
+                const response = await commonProvider.getListByCondition({}, 0, 4, "/video");
                 if (response.success) {
                     this.videos = response.data.list;
                 }

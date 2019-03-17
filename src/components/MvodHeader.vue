@@ -69,7 +69,7 @@
                     const response = await commomProvider.getListByCondition({
                         conditionName: "name",
                         conditionValue: this.video
-                    }, 0, 10, "/api/video");
+                    }, 0, 10, "/video");
                     if (response.success) {
                         const list = response.data.list;
                         this.$store.commit("setQuery", this.video);

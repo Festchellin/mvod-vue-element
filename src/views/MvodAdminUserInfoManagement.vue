@@ -69,7 +69,7 @@
                 return row.user.name || row.user.account;
             },
             async getData() {
-                const response = await commonProvider.getListByCondition({}, 0, 10000, '/api/userInfo');
+                const response = await commonProvider.getListByCondition({}, 0, 10000, '/userInfo');
                 if (response.success) {
                     this.userInfoList = response.data.list;
                 }

@@ -217,7 +217,7 @@
                         if (!response.success) {
                             this.$message.error(response.message)
                         } else {
-                            const response = await commonProvider.getListByCondition({}, 0, 10000, "/api/user");
+                            const response = await commonProvider.getListByCondition({}, 0, 10000, "/user");
                             if (response.success) {
                                 this.userList = response.data.userList.slice(0);
                                 const userList = this.userList.slice(0);
@@ -231,7 +231,7 @@
             }
         },
         async mounted() {
-            const response = await commonProvider.getListByCondition({}, 0, 10000, "/api/user");
+            const response = await commonProvider.getListByCondition({}, 0, 10000, "/user");
 
             if (response.success) {
                 this.userList = response.data.userList.slice(0);

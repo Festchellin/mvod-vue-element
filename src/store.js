@@ -87,7 +87,7 @@ export default new Vuex.Store({
             context.commit("setVideos", videos);
         },
         async setVideosAsync(context, {condition,page, pageSize}) {
-            const response = await httpService.getListByCondition({...condition}, page, pageSize, "/api/video");
+            const response = await httpService.getListByCondition({...condition}, page, pageSize, "/video");
             if (response.success) {
                 const videos = response.data.list;
                 context.commit("setVideos", videos);
@@ -98,7 +98,7 @@ export default new Vuex.Store({
         },
         async setCategoryMenuAsync(context) {
             if (!context.state.categoryMenu) {
-                const response = await httpService.getListByCondition({}, 0, 100, "/api/category");
+                const response = await httpService.getListByCondition({}, 0, 100, "/category");
                 if (response.success) {
                     const categoryMenu = {id: 1, title: "By Category", items: response.data.categories};
                     context.commit('setCategoryMenu', categoryMenu);
@@ -109,7 +109,7 @@ export default new Vuex.Store({
             context.commit('setAdminMenu', adminMenu)
         },
         async setAdminMenuAsync(context) {
-            const response = await httpService.getList("/api/table?type=2");
+            const response = await httpService.getList("/table?type=2");
             if (response.success) {
                 const menu = response.data.tables;
                 context.commit('setAdminMenu', menu);
@@ -119,7 +119,7 @@ export default new Vuex.Store({
             context.commit('setUserMenu', menu)
         },
         async setUserMenuAsync(context) {
-            const response = await httpService.getList("/api/table?type=1");
+            const response = await httpService.getList("/table?type=1");
             if (response.success) {
                 const menu = response.data.tables;
                 context.commit('setUserMenu', menu);
@@ -129,7 +129,7 @@ export default new Vuex.Store({
             context.commit('setUserMenu', menu)
         },
         async setMenuAsync(context) {
-            const response = await httpService.getList("/api/table?type=3");
+            const response = await httpService.getList("/table?type=3");
             if (response.success) {
                 const menu = response.data.tables;
                 context.commit('setMenu', menu);

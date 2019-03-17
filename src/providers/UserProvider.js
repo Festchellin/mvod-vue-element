@@ -1,6 +1,6 @@
 import httpService from './HttpProvider'
 
-const BASEURL = '/api/user/';
+const BASEURL = '/user/';
 export default {
     async getUserById(id) {
         return await httpService.fetch(`${BASEURL}${id}`);

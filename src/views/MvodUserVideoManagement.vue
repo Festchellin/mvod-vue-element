@@ -22,7 +22,7 @@
             </el-form-item>
             <el-form-item>
                 <mvod-file-upload
-                        url="/api/upload/video"
+                        url="/upload/video"
                         accept="video/*"
                         @onUploadSuccess="handleUploadSuccess"
                 />
@@ -147,7 +147,7 @@
             async saveVideo() {
                 const video = {...this.video}
                 video.author = this.$store.getters.getUser;
-                const response = await commomProvider.save(video, "/api/video/");
+                const response = await commomProvider.save(video, "/video/");
                 this.$message({
                     message: response.message,
                     type: response.success ? "success" : "error"
@@ -163,14 +163,14 @@
                 }
             },
             async save(video) {
-                const response = await commomProvider.update(video, '/api/video');
+                const response = await commomProvider.update(video, '/video');
                 if (response.success) {
                     await this.getData();
                     this.data = this.videoList.slice(0, this.pageSize);
                 }
             },
             async deleteRow(video) {
-                const response = await commomProvider.deleteById(video.id, '/api/video/');
+                const response = await commomProvider.deleteById(video.id, '/video/');
                 if (response.success) {
                     await this.getData();
                     this.data = this.videoList.slice(0, this.pageSize);
@@ -230,7 +230,7 @@
                 return row.author.name || row.author.account
             },
             async getData() {
-                const response = await commomProvider.getById(this.$store.getters.getUser.id, "/api/video/user/");
+                const response = await commomProvider.getById(this.$store.getters.getUser.id, "/video/user/");
                 if (response.success) {
                     this.videoList = response.data.list
                 }

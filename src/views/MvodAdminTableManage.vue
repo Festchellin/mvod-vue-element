@@ -105,7 +105,7 @@
         methods: {
             async save(row) {
                 console.log(row);
-                const response = await commonService.update(row, '/api/table/');
+                const response = await commonService.update(row, '/table/');
                 if (!response.success) {
                     this.$message.error(response.message)
                 }
@@ -114,7 +114,7 @@
                 this.$refs[formName].validate(async valid => {
                     if (valid) {
                         const menu = {...this.menu};
-                        const response = await commonService.save(menu, '/api/table');
+                        const response = await commonService.save(menu, '/table');
                         this.$message({
                             showClose: true,
                             type: response.success ? 'success' : 'error',
@@ -131,7 +131,7 @@
                     confirmButtonText: 'Delete'
                 }).then(() => {
                     console.log("confirm" + row.id);
-                    commonService.deleteById(row.id, '/api/table/').then(async response => {
+                    commonService.deleteById(row.id, '/table/').then(async response => {
                         if (!response.success) {
                             this.$message.error(response.message)
                         } else {

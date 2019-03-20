@@ -14,7 +14,9 @@ export default new Vuex.Store({
         menu: null,
         videos: [],
         showHomeCarousel: true,
-        query:""
+        query: "",
+        page: 0,
+        pageSize: 5
     },
     getters: {
         isSignIn(state) {
@@ -44,12 +46,24 @@ export default new Vuex.Store({
         getShowHomeCarousel(state) {
             return state.showHomeCarousel;
         },
-        getQuery(state){
+        getQuery(state) {
             return state.query;
+        },
+        getPage(state) {
+            return state.page
+        },
+        getPageSize(state) {
+            return state.pageSize
         }
     }
     ,
     mutations: {
+        setPage(state, page) {
+            state.page = page;
+        },
+        setPageSize(state, pageSize) {
+            state.pageSize = pageSize;
+        },
         setUserToken(state, userToken) {
             state.userToken = userToken;
         },
@@ -78,7 +92,7 @@ export default new Vuex.Store({
         setShowHomeCarousel(state, carousel) {
             state.showHomeCarousel = carousel;
         },
-        setQuery(state,query){
+        setQuery(state, query) {
             state.query = query;
         }
     },
@@ -86,7 +100,7 @@ export default new Vuex.Store({
         setVideos(context, videos) {
             context.commit("setVideos", videos);
         },
-        async setVideosAsync(context, {condition,page, pageSize}) {
+        async setVideosAsync(context, {condition, page, pageSize}) {
             const response = await httpService.getListByCondition({...condition}, page, pageSize, "/video");
             if (response.success) {
                 const videos = response.data.list;

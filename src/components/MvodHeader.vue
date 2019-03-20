@@ -48,7 +48,7 @@
         },
         computed: {
             video() {
-                return this.query || this.$store.getters.getQuery
+                return (this.query || " ") || this.$store.getters.getQuery
             }
         },
         methods: {
@@ -74,12 +74,14 @@
                         const list = response.data.list;
                         this.$store.commit("setQuery", this.video);
                         this.$store.commit("setVideos", list);
-                        this.$store.commit("setShowHomeCarousel", false)
+                        this.$store.commit("setShowHomeCarousel", false);
+                        this.$store.commit("setPage", 0);
                         this.$router.push("/");
                     }
                 } else {
-                    await this.$store.dispatch("setVideosAsync", {page: 0, pageSize: 10})
-                    this.$store.commit("setShowHomeCarousel", true)
+                    await this.$store.dispatch("setVideosAsync", {condition: {}, page: null, pageSize: null});
+                    this.$store.commit("setShowHomeCarousel", true);
+                    this.$store.commit("setPage", 0);
                 }
             }
         }

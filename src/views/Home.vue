@@ -18,7 +18,8 @@
                 </el-card>
 
                 <div v-if="this.$store.getters.getVideos.length > 0">
-                    <mvod-video-simple  :video="video" v-bind:key="index" v-for="(video,index) in this.$store.getters.getVideos"/>
+                    <mvod-video-simple :video="video" v-bind:key="index"
+                                       v-for="(video,index) in this.$store.getters.getVideos.slice(this.page * this.pageSize,Math.min(this.total,(this.page + 1) * this.pageSize))"/>
                 </div>
                 <div v-else class="mvod-align-center">
                     <el-card>
@@ -27,6 +28,12 @@
                 </div>
             </el-col>
         </el-row>
+        <div class="mvod-align-center">
+            <el-button-group class="mvod-align-center">
+                <el-button @click="previewPage" icon="el-icon-arrow-left">Preview</el-button>
+                <el-button @click="nextPage">Next<i class="el-icon-arrow-right"></i></el-button>
+            </el-button-group>
+        </div>
         <el-footer>
             <mvod-footer/>
         </el-footer>
@@ -52,25 +59,42 @@
         data() {
             return {
                 subMenus: [],
-                videos: []
+                videos: [],
+            }
+        },
+        computed: {
+            page() {
+                return this.$store.getters.getPage;
+            },
+            pageSize() {
+                return this.$store.getters.getPageSize;
+            },
+            total() {
+                return this.$store.getters.getVideos.length;
             }
         },
         methods: {
             async getData(condition,page,pageSize) {
               await this.$store.dispatch("setVideosAsync",{condition,page,pageSize})
+            },
+            previewPage() {
+                this.$store.commit("setPage", Math.max(this.page - 1, 0));
+            },
+            nextPage() {
+                this.$store.commit("setPage", Math.min(this.page + 1, Math.floor(this.total / this.pageSize)))
             }
         },
         async mounted() {
             const query = this.$store.getters.getQuery;
-            console.log(query)
-            let condition = {}
+            let condition = {};
             if (query !== "") {
                 condition = {
                     conditionName: "name",
                     conditionValue: query
                 }
             }
-            await this.getData(condition,0,10);
+            await this.getData(condition, null, null);
+
         }
     }
 </script>
